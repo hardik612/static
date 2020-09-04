@@ -1,5 +1,4 @@
 pipeline {
-     
      agent any
      stages {
          stage('Build') {
@@ -16,5 +15,6 @@ pipeline {
               steps {
                   sh 'tidy -q -e *.html'
               }
+         }
     }
 }
