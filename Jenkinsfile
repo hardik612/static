@@ -1,13 +1,19 @@
 pipeline {
+     
      agent any
      stages {
          stage('Upload to AWS') {
               steps {
-                  withAWS(region:'us-west-2',credentials:'aws-static') {
-                  sh 'echo "Uploading content to AWS"'
-                      s3Upload(pathStyleAccessEnabled: true, payloadSigningEnabled: true, file:'index.html', bucket:'udacity-aws-static-website')
+                  sh '''
+                    echo "Uploading index.html to AWS S3"
+                    aws s3 cp index.html s3://udacity-aws-static-website/
+                '''
                   }
               }
-         }
+
+         stage('Lint HTML') {
+              steps {
+                  sh 'tidy -q -e *.html'
+              }
     }
 }
